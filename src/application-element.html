@@ -2,10 +2,14 @@
 <script src="../bower_components/crypto-js/core.js"></script>
 <script src="../bower_components/crypto-js/sha1.js"></script>
 
+
 <link rel="import" href="../lib/stevia-components/src/stv-header.html">
 <link rel="import" href="../lib/stevia-components/src/stv-application-behavior.html">
 <link rel="import" href="../lib/stevia-components/src/stv-footer.html">
 <link rel="import" href="../lib/stevia-components/src/stv-help-menu.html">
+
+<link rel="import" href="../lib/stevia-components/src/stv-panel.html">
+<link rel="import" href="../lib/stevia-components/src/file/stv-file-browser.html">
 
 <link rel="import" href="application-home.html">
 
@@ -80,9 +84,20 @@
         }
     </style>
     <template>
+
         <div class="content" menu-option="home">
             <application-home id="home" on-start="handleHomeStart" isLogged="{{isLogged}}"></application-home>
         </div>
+        <div class="content" menu-option="home">
+            <stv-panel id="browserPanel" hidden collapsible movable closable on-hidden="handlePanelHidden">
+                <div class="header">
+                    <i class="fa fa-cloud"></i>&nbsp; Browse my data
+                </div>
+                <stv-file-browser id="browser" class="container flex" on-fileselect="handleFileSelect" bioformats="{{bioformats}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}">
+                </stv-file-browser>
+            </stv-panel>
+        </div>
+
 
         <stv-header id="stvHeader" hide-jobs hide-browse selected-option="{{selectedOption}}" user-data="{{userData}}" on-login="handleLogin" on-logout="handleLogout">
             <div class="icon">
@@ -144,6 +159,7 @@
                 this.selectedOption = "home";
                 this.checkShowMenuOnLogin();
             },
+            handleFileSelect: function(e) {},
             handleLogin: function() {
                 this.selectedOption = "home";
                 if (this._lastLogedRequest) {

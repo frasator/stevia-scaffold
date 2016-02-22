@@ -118,6 +118,10 @@
                     <i class="fa fa-magic"></i>
                     <span class="option-text">Home</span>
                 </div>
+                <div title="" class="option" on-click="handleLaunchTest">
+                    <i class="fa fa-rocket"></i>
+                    <span class="option-text">Launch</span>
+                </div>
                 <div class="flex" style="margin-left:2vw;"></div>
                 <div title="Browse my data" class="option" on-click="handleLoggedOnlyMenuPanel" data-panel="browserPanel">
                     <i class="fa fa-cloud"></i>
@@ -177,6 +181,64 @@
             },
             handleUserNeedRefresh: function() {
                 this.$.stvHeader.getUserInfo(true);
+            },
+
+            handleLaunchTest: function(e) {
+                console.log('Launch test');
+                var query = {
+                    sid: Cookies("bioinfo_sid"),
+                    name: 'El job',
+                    description: 'la desc',
+                    outdirId: '56cae4eba1276eac042b53a4',
+                };
+                var jobConfig = {
+                    tool: 'test',
+                    execution: 'test',
+                    executable: 'test.sh',
+                    options: {
+                        input1: {
+                            type: 'file',
+                            mode: 'id',
+                            value: '56cb2edf5ef99403282a7640'
+                        },
+                        input2: {
+                            type: 'file',
+                            mode: 'text',
+                            value: 'test input 2\nthis file is text'
+                        },
+                        outdir: {
+                            out: true,
+                        },
+                        param1: {
+                            type: 'text',
+                            value: 'param1val'
+                        },
+                        f: {
+                            type: 'flag',
+                            short: true
+                        }
+                    }
+                }
+                SteviaManager.jobs.create({
+                    query: query,
+                    request: {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(jobConfig),
+                        success: function(response) {
+                            if (response.response[0].errorMsg === '' || response.response[0].errorMsg == null) {
+                                console.log(response);
+                            } else {
+                                console.log(response.response[0].errorMsg);
+                            }
+                        },
+                        error: function() {
+                            me.message = 'Server error, try again later.';
+                        }
+                    }
+                });
             }
         });
     </script>

@@ -228,10 +228,10 @@
                         },
                         body: JSON.stringify(jobConfig),
                         success: function(response) {
-                            if (response.response[0].errorMsg === '' || response.response[0].errorMsg == null) {
+                            if (response.response[0].error == null) {
                                 console.log(response);
                             } else {
-                                console.log(response.response[0].errorMsg);
+                                console.log(response.response[0].error);
                             }
                         },
                         error: function() {

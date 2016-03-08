@@ -218,7 +218,68 @@
                             short: true
                         }
                     }
-                }
+                };
+
+                /**/
+                /**/
+                var query = {
+                    sid: Cookies("bioinfo_sid"),
+                    name: 'Differential signaling job',
+                    description: 'test diff sign'
+                        // outdirId: '56cae4eba1276eac042b53a4',
+                };
+                var jobConfig = {
+                    tool: 'pathways',
+                    execution: 'differential-signaling',
+                    executable: 'differential-signaling.sh',
+                    options: {
+                        "exp_file": {
+                            type: 'file',
+                            mode: 'id',
+                            value: '56d9cba0994a75d07fa2456f'
+                        },
+                        "design_file": {
+                            type: 'file',
+                            mode: 'id',
+                            value: '56d9cba6994a75d07fa24570'
+                        },
+                        "output_folder": {
+                            out: true,
+                        },
+                        cond1: {
+                            type: 'text',
+                            value: 'Normal'
+                        },
+                        cond2: {
+                            type: 'text',
+                            value: 'Tumor'
+                        },
+                        param1: {
+                            type: 'text',
+                            value: 'param1val'
+                        },
+                        // "pathways_list": {
+                        //     type: 'text',
+                        //     value: "04014,04015,04010,04012,04310,04330,04340,04350,04390,04370,04630,04064,04668,04066,04068,04020,04071,04024,04022,04151,04152,04150,04110,04114,04210,04115,04510,04520,04530,04540,04611,04620,04621,04622,04650,04660,04662,04664,04666,04670,04062,04910,04922,04920,03320,04912,04915,04914,04921,04919,04916,04261,04270,04722,05200,05231,05202,05205"
+                        // },
+                        "pathways_list": {
+                            type: 'text',
+                            value: "04014"
+                        },
+                        "species": {
+                            type: 'text',
+                            value: "hsa"
+                        },
+                        "design_type": {
+                            type: 'text',
+                            value: "categorical"
+                        },
+                        "verbose": {
+                            type: 'flag'
+                        }
+                    }
+                };
+
                 SteviaManager.jobs.create({
                     query: query,
                     request: {

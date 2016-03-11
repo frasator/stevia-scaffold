@@ -7,9 +7,11 @@
 <link rel="import" href="../lib/stevia-components/src/stv-application-behavior.html">
 <link rel="import" href="../lib/stevia-components/src/stv-footer.html">
 <link rel="import" href="../lib/stevia-components/src/stv-help-menu.html">
+<link rel="import" href="../lib/stevia-components/src/stv-select.html">
 
 <link rel="import" href="../lib/stevia-components/src/stv-panel.html">
 <link rel="import" href="../lib/stevia-components/src/file/stv-file-browser.html">
+<link rel="import" href="../lib/stevia-components/src/job/stv-job-browser.html">
 
 <link rel="import" href="application-home.html">
 
@@ -50,7 +52,7 @@
             width: 600px;
         }
 
-        #jobsPanel {
+        #jobBrowserPanel {
             position: absolute;
             top: 0px;
             right: 0;
@@ -59,7 +61,7 @@
 
         #browser {
             /*width: 600px;*/
-            height: 400px;
+            /*height: 400px;*/
         }
 
         @media (max-width: 1100px) {
@@ -96,6 +98,13 @@
                 <stv-file-browser id="browser" class="container flex" on-fileselect="handleFileSelect" bioformats="{{bioformats}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}">
                 </stv-file-browser>
             </stv-panel>
+            <stv-panel id="jobBrowserPanel" hidden collapsible movable closable on-hidden="handlePanelHidden">
+                <div class="header">
+                    <i class="fa fa-flask"></i>&nbsp; Browse my jobs
+                </div>
+                <stv-job-browser id="jobBrowser" class="container flex" on-jobselect="handleJobSelect" allowed-tools="{{allowedTools}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}" disable-relaunch="{{disableRelaunch}}" hide-status-filter="{{hideStatusFilter}}" hide-tool-filter="{{hideToolFilter}}">
+                </stv-job-browser>
+            </stv-panel>
         </div>
 
 
@@ -119,7 +128,7 @@
                     <span class="option-text">Home</span>
                 </div>
                 <div title="" class="option" on-click="handleLaunchTest">
-                    <i class="fa fa-rocket"></i>
+                    <i class="fa fa-flask"></i>
                     <span class="option-text">Launch</span>
                 </div>
                 <div class="flex" style="margin-left:2vw;"></div>
@@ -127,8 +136,8 @@
                     <i class="fa fa-cloud"></i>
                     <span class="option-text">My data</span>
                 </div>
-                <div title="Browse my jobs" class="option" on-click="handleLoggedOnlyMenuPanel" data-panel="jobsPanel">
-                    <i class="fa fa-rocket"></i>
+                <div title="Browse my jobs" class="option" on-click="handleLoggedOnlyMenuPanel" data-panel="jobBrowserPanel">
+                    <i class="fa fa-flask"></i>
                     <span class="option-text">My jobs</span>
                 </div>
                 <div style="margin-left:2vw;"></div>
@@ -157,7 +166,14 @@
         Polymer({
             is: "application-element",
             behaviors: [StvApplicationBehavior],
-            properties: {},
+            properties: {
+                allowedTools: {
+                    type: Array,
+                    value: function() {
+                        return ['pathways.differential-signaling', 'pathways.prediction-train', 'pathways.prediction-test'];
+                    }
+                },
+            },
             ready: function() {
                 var me = this;
                 this.selectedOption = "home";
@@ -236,12 +252,12 @@
                         "exp_file": {
                             type: 'file',
                             mode: 'id',
-                            value: '56d9cba0994a75d07fa2456f'
+                            value: '56e182836ac8d3036ce0e652'
                         },
                         "design_file": {
                             type: 'file',
                             mode: 'id',
-                            value: '56d9cba6994a75d07fa24570'
+                            value: '56e18289be6429db6d292d14'
                         },
                         "output_folder": {
                             out: true,
@@ -253,10 +269,6 @@
                         cond2: {
                             type: 'text',
                             value: 'Tumor'
-                        },
-                        param1: {
-                            type: 'text',
-                            value: 'param1val'
                         },
                         // "pathways_list": {
                         //     type: 'text',

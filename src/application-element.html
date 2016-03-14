@@ -200,6 +200,7 @@
             },
 
             handleLaunchTest: function(e) {
+                var me = this;
                 console.log('Launch test');
                 var query = {
                     sid: Cookies("bioinfo_sid"),
@@ -252,7 +253,7 @@
                         "exp_file": {
                             type: 'file',
                             mode: 'id',
-                            value: '56e182836ac8d3036ce0e652'
+                            value: '56e182836ac8d3036ce0e651'
                         },
                         "design_file": {
                             type: 'file',
@@ -306,9 +307,10 @@
                             } else {
                                 console.log(response.response[0].error);
                             }
+                            me.handleUserNeedRefresh();
                         },
                         error: function() {
-                            me.message = 'Server error, try again later.';
+                            console.log('Server error, try again later.');
                         }
                     }
                 });

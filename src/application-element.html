@@ -45,7 +45,7 @@
             /*background-color: transparent;*/
         }
 
-        #browserPanel {
+        #fileBrowserPanel {
             position: absolute;
             top: 0px;
             left: 0;
@@ -59,7 +59,7 @@
             width: 600px;
         }
 
-        #browser {
+        #fileBrowser {
             /*width: 600px;*/
             /*height: 400px;*/
         }
@@ -91,11 +91,11 @@
             <application-home id="home" on-start="handleHomeStart" isLogged="{{isLogged}}"></application-home>
         </div>
         <div class="content" menu-option="home">
-            <stv-panel id="browserPanel" hidden collapsible movable closable on-hidden="handlePanelHidden">
+            <stv-panel id="fileBrowserPanel" hidden collapsible movable closable on-hidden="handlePanelHidden">
                 <div class="header">
                     <i class="fa fa-cloud"></i>&nbsp; Browse my data
                 </div>
-                <stv-file-browser id="browser" class="container flex" on-fileselect="handleFileSelect" bioformats="{{bioformats}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}">
+                <stv-file-browser id="fileBrowser" class="container flex" on-fileselect="handleFileSelect" bioformats="{{bioformats}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}">
                 </stv-file-browser>
             </stv-panel>
             <stv-panel id="jobBrowserPanel" hidden collapsible movable closable on-hidden="handlePanelHidden">
@@ -132,7 +132,7 @@
                     <span class="option-text">Launch</span>
                 </div>
                 <div class="flex" style="margin-left:2vw;"></div>
-                <div title="Browse my data" class="option" on-click="handleLoggedOnlyMenuPanel" data-panel="browserPanel">
+                <div title="Browse my data" class="option" on-click="handleLoggedOnlyMenuPanel" data-panel="fileBrowserPanel">
                     <i class="fa fa-cloud"></i>
                     <span class="option-text">My data</span>
                 </div>

@@ -97,7 +97,7 @@
             <application-home id="home" on-start="handleHomeStart" isLogged="{{isLogged}}"></application-home>
         </div>
         <div class="content" menu-option="home">
-            <stv-panel id="fileBrowserPanel" hidden collapsible movable closable on-hidden="handlePanelHidden">
+            <stv-panel id="fileBrowserPanel" hidden collapsible movable closable expandible on-hidden="handlePanelHidden">
                 <div class="header">
                     <i class="fa fa-cloud"></i>&nbsp; Browse my data
                 </div>
@@ -108,7 +108,8 @@
                 <div class="header">
                     <i class="fa fa-flask"></i>&nbsp; Browse my jobs
                 </div>
-                <stv-job-browser id="jobBrowser" class="container flex" on-jobselect="handleJobSelect" allowed-tools="{{allowedTools}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}" disable-relaunch="{{disableRelaunch}}" hide-status-filter="{{hideStatusFilter}}" hide-tool-filter="{{hideToolFilter}}">
+                <stv-job-browser id="jobBrowser" class="container flex" on-jobselect="handleJobSelect" allowed-tools="{{allowedTools}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}" disable-relaunch="{{disableRelaunch}}" hide-status-filter="{{hideStatusFilter}}"
+                hide-tool-filter="{{hideToolFilter}}">
                 </stv-job-browser>
             </stv-panel>
         </div>
@@ -248,8 +249,8 @@
                 var query = {
                     sid: Cookies("bioinfo_sid"),
                     name: 'Differential signaling job',
-                    description: 'test diff sign'
-                        // outdirId: '56cae4eba1276eac042b53a4',
+                    description: 'test diff sign',
+                    outdirId: '56e6d0ed5d07cb333f39f6d0'
                 };
                 var jobConfig = {
                     tool: 'pathways',
@@ -259,12 +260,12 @@
                         "exp_file": {
                             type: 'file',
                             mode: 'id',
-                            value: '56e182836ac8d3036ce0e651'
+                            value: '56e6c91d67fd4ad8567b5e4c'
                         },
                         "design_file": {
                             type: 'file',
                             mode: 'id',
-                            value: '56e18289be6429db6d292d14'
+                            value: '56e6c919ff6002ce567adada'
                         },
                         "output_folder": {
                             out: true,

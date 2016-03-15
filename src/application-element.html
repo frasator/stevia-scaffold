@@ -97,14 +97,14 @@
             <application-home id="home" on-start="handleHomeStart" isLogged="{{isLogged}}"></application-home>
         </div>
         <div class="content" menu-option="home">
-            <stv-panel id="fileBrowserPanel" hidden collapsible movable closable expandible on-hidden="handlePanelHidden">
+            <stv-panel id="fileBrowserPanel" hidden collapsible movable closable expandible resizable on-hidden="handlePanelHidden">
                 <div class="header">
                     <i class="fa fa-cloud"></i>&nbsp; Browse my data
                 </div>
                 <stv-file-browser id="fileBrowser" class="container flex" on-fileselect="handleFileSelect" bioformats="{{bioformats}}" on-need-refresh="handleUserNeedRefresh" user-data="{{userData}}">
                 </stv-file-browser>
             </stv-panel>
-            <stv-panel id="jobBrowserPanel" hidden collapsible movable closable on-hidden="handlePanelHidden">
+            <stv-panel id="jobBrowserPanel" hidden collapsible movable closable resizable on-hidden="handlePanelHidden">
                 <div class="header">
                     <i class="fa fa-flask"></i>&nbsp; Browse my jobs
                 </div>

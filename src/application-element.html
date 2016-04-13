@@ -97,7 +97,7 @@
     </style>
     <template>
 
-        <div class="content" menu-option="home">
+        <div class="content" menu-option="home" collapsible movable closable>
             <application-home id="home" on-start="handleHomeStart" isLogged="{{isLogged}}"></application-home>
         </div>
         <div class="content" menu-option="home">
@@ -116,6 +116,7 @@
                 hide-tool-filter="{{hideToolFilter}}">
                 </stv-job-browser>
             </stv-panel>
+            <stv-feedback id="feedback" hidden></stv-feedback>
         </div>
 
 
@@ -161,7 +162,9 @@
                 <div on-mousedown="handleExample">
                     <i class="fa fa-lightbulb-o"></i> &nbsp; Run example
                 </div>
-                <stv-feedback></stv-feedback>
+                <div on-mousedown="handleFeedback">
+                  <i class="fa fa-bolt"></i> &nbsp; FeedBack
+                </div>
             </stv-help-menu>
         </stv-header>
 
@@ -326,6 +329,9 @@
                         }
                     }
                 });
+            },
+            handleFeedback: function(){
+              this.$.feedback.hidden=!this.$.feedback.hidden;
             }
         });
     </script>

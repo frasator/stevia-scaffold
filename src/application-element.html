@@ -1,22 +1,26 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
 <script src="../bower_components/cookies-js/dist/cookies.min.js"></script>
 <script src="../bower_components/crypto-js/core.js"></script>
 <script src="../bower_components/crypto-js/sha1.js"></script>
 
 
-<link rel="import" href="../lib/stevia-components/src/stv-header.html">
-<link rel="import" href="../lib/stevia-components/src/stv-application-behavior.html">
-<link rel="import" href="../lib/stevia-components/src/stv-footer.html">
-<link rel="import" href="../lib/stevia-components/src/stv-help-menu.html">
-<link rel="import" href="../lib/stevia-components/src/stv-select.html">
+<link rel="import" href="../bower_components/stevia-components/src/stv-header.html">
+<link rel="import" href="../bower_components/stevia-components/src/stv-application-behavior.html">
+<link rel="import" href="../bower_components/stevia-components/src/stv-footer.html">
+<link rel="import" href="../bower_components/stevia-components/src/stv-help-menu.html">
+<link rel="import" href="../bower_components/stevia-components/src/stv-select.html">
+<link rel="import" href="../bower_components/stevia-components/src/stv-feedback.html">
 
-<link rel="import" href="../lib/stevia-components/src/stv-panel.html">
-<link rel="import" href="../lib/stevia-components/src/file/stv-file-browser.html">
-<link rel="import" href="../lib/stevia-components/src/job/stv-job-browser.html">
+<link rel="import" href="../bower_components/stevia-components/src/stv-panel.html">
+<link rel="import" href="../bower_components/stevia-components/src/file/stv-file-browser.html">
+<link rel="import" href="../bower_components/stevia-components/src/job/stv-job-browser.html">
 
 <link rel="import" href="application-home.html">
 
 <dom-module id="application-element">
-    <style>
+    <style is="custom-style" include="iron-flex iron-flex-reverse iron-flex-alignment iron-flex-factors iron-positioning">
         :host {
             display: block;
             position: relative;
@@ -157,6 +161,7 @@
                 <div on-mousedown="handleExample">
                     <i class="fa fa-lightbulb-o"></i> &nbsp; Run example
                 </div>
+                <stv-feedback></stv-feedback>
             </stv-help-menu>
         </stv-header>
 

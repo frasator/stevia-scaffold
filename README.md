@@ -1,0 +1,1 @@
+This project is an example of web application using the stevia server as backend.

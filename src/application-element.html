@@ -116,7 +116,7 @@
                 hide-tool-filter="{{hideToolFilter}}">
                 </stv-job-browser>
             </stv-panel>
-            <stv-feedback id="feedback" hidden></stv-feedback>
+            <stv-feedback id="feedback" hidden on-feedbackend="handleFeedback"></stv-feedback>
         </div>
 
 
@@ -163,8 +163,11 @@
                     <i class="fa fa-lightbulb-o"></i> &nbsp; Run example
                 </div>
                 <div on-mousedown="handleFeedback">
-                  <i class="fa fa-bolt"></i> &nbsp; FeedBack
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp; Send an email
                 </div>
+                <a href="http://gitlab.bioinfo.cipf.es/stevia/stevia-components/issues" target="_blank">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp; Go to git issue
+                </a>
             </stv-help-menu>
         </stv-header>
 

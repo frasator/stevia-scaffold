@@ -13,7 +13,7 @@
 <link rel="import" href="../bower_components/stevia-components/src/stv-select.html">
 <link rel="import" href="../bower_components/stevia-components/src/stv-feedback.html">
 
-<!--<link rel="import" href="../bower_components/stevia-components/src/......./stv-launcher.html">-->
+<link rel="import" href="../bower_components/stevia-components/src/stv-launcher/stv-launcher.html">
 
 <link rel="import" href="../bower_components/stevia-components/src/stv-panel.html">
 <link rel="import" href="../bower_components/stevia-components/src/file/stv-file-browser.html">
@@ -157,9 +157,11 @@
                 <div style="margin-left:2vw;"></div>
             </div>
 
-            <stv-launcher class="launcher">
+            <stv-launcher class="launcher" dropdown-position="left">
                 <i class="fa fa-th"></i>
             </stv-launcher>
+
+
             <stv-help-menu class="helpmenu" selectedOption="{{selectedOption}}">
                 <a href="http://pathact.babelomics.org/doc" target="_blank">
                     <i class="fa fa-book"></i> &nbsp; Documentation

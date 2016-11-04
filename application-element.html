@@ -7,27 +7,30 @@
 <script src="bower_components/crypto-js/core.js"></script>
 <script src="bower_components/crypto-js/sha1.js"></script>
 
-
 <link rel="import" href="bower_components/stevia-elements/src/stv-header.html">
 <link rel="import" href="bower_components/stevia-elements/src/stv-application-behavior.html">
 <link rel="import" href="bower_components/stevia-elements/src/stv-footer.html">
 <link rel="import" href="bower_components/stevia-elements/src/stv-select.html">
+<link rel="import" href="bower_components/stevia-elements/src/stv-select-box.html">
 <link rel="import" href="bower_components/stevia-elements/src/stv-panel.html">
-<link rel="import" href="bower_components/stevia-elements/src/stv-feedback.html">
 <link rel="import" href="bower_components/stevia-elements/src/dropdown/stv-dropdown.html">
-
+<link rel="import" href="bower_components/stevia-elements/src/stv-feedback.html">
 <link rel="import" href="bower_components/stevia-elements/src/stv-launcher/stv-launcher.html">
-<link rel="import" href="bower_components/stevia-elements/src/stv-cluster-status.html">
 
+<link rel="import" href="bower_components/stevia-elements/src/table/stv-table.html">
+<link rel="import" href="bower_components/stevia-elements/src/form/stv-file-origin.html">
 <link rel="import" href="bower_components/stevia-elements/src/file/stv-file-browser.html">
 <link rel="import" href="bower_components/stevia-elements/src/job/stv-job-browser.html">
-<link rel="import" href="bower_components/iron-list/iron-list.html">
+<link rel="import" href="bower_components/stevia-elements/src/stv-cluster-status.html">
+<link rel="import" href="bower_components/stevia-elements/src/report/stv-report.html">
+
 
 <link rel="import" href="src/application-home.html">
+<link rel="import" href="src/application-form.html">
 
 <dom-module id="application-element">
     <style is="custom-style" include="iron-flex iron-flex-reverse iron-flex-alignment iron-flex-factors iron-positioning">
-        :host {
+         :host {
             display: block;
             position: relative;
             cursor: default;
@@ -99,13 +102,25 @@
             height: calc(100vh - 160px);
             overflow-y: auto;
         }
+
+        application-form,
+        stv-report {
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
     </style>
     <template>
 
-        <div class="content" menu-option="home" collapsible movable closable>
+        <div class="content" menu-option="home">
             <application-home id="home" on-start="handleHomeStart" isLogged="{{isLogged}}"></application-home>
         </div>
-        <div class="content" menu-option="home">
+        <div class="content" menu-option="form">
+            <application-form id="home"></application-form>
+        </div>
+        <div id="jobContent" class="content" menu-option="job">
+            <stv-report id="report"></stv-report>
+        </div>
+        <div class="content" menu-option="home,form,job">
             <stv-panel id="fileBrowserPanel" hidden collapsible movable closable expandible resizable on-hidden="handlePanelHidden">
                 <div class="header">
                     <i class="fa fa-cloud"></i>&nbsp; Browse my data
@@ -143,9 +158,9 @@
                     <i class="fa fa-magic"></i>
                     <span class="option-text">Home</span>
                 </div>
-                <div title="" class="option" on-click="handleLaunchTest">
-                    <i class="fa fa-flask"></i>
-                    <span class="option-text">Launch</span>
+                <div title="" class="option" on-click="handleLoggedOnlyMenuOption" data-option="form">
+                    <i class="fa fa-rocket"></i>
+                    <span class="option-text">Form</span>
                 </div>
                 <div class="flex" style="margin-left:2vw;"></div>
                 <div title="Browse my data" class="option" on-click="handleLoggedOnlyMenuPanel" data-panel="fileBrowserPanel">
@@ -159,17 +174,16 @@
                 <div style="margin-left:2vw;"></div>
             </div>
 
-            <stv-launcher class="launcher" dropdown-position="left" data-src="conf/test-apps.json">
+            <!-- <stv-launcher class="launcher" dropdown-position="left" data-src="conf/test-apps.json">
                 <i class="fa fa-th"></i>
-            </stv-launcher>
+            </stv-launcher> -->
 
-            <stv-cluster-status class="cluster_stats" cluster-api="http://MBP-de-Edgar.bioinfo.cipf.es:1989/serverStatus">
-            </stv-cluster-status>
+            <stv-cluster-status id="clusterStatus" type="dark" class="cluster-status"></stv-cluster-status>
 
             <stv-dropdown dark class="helpmenu">
                 <div data-button><i class="fa fa-question-circle"></i></div>
                 <ul data-menu>
-                    <a href="http://pathact.babelomics.org/doc" target="_blank">
+                    <a href="" target="_blank">
                         <li>
                             <i class="fa fa-book"></i> &nbsp; Documentation
                         </li>
@@ -206,7 +220,7 @@
                 allowedTools: {
                     type: Array,
                     value: function() {
-                        return ['pathways.differential-signaling', 'pathways.prediction-train', 'pathways.prediction-test'];
+                        return ['*'];
                     }
                 },
                 bioformats: {
@@ -222,13 +236,30 @@
                 this.checkShowMenuOnLogin();
             },
             handleFileSelect: function(e) {},
-            handleLogin: function() {
-                this.selectedOption = "home";
-                if (this._lastLogedRequest) {
-                    this._lastLogedRequest.hidden = false;
-                    this._lastLogedRequest = null;
+            handleJobSelect: function(e) {
+                var me = this;
+                var job = e.detail;
+                if (job && job.status === 'DONE') {
+                    this.set('selectedOption', 'job');
+                    this.$.report.hideJobInformation = true;
+                    this.$.report.set('job', job);
                 }
-
+            },
+            handleLogin: function() {
+                debugger
+                if (Cookies('bioinfo_user').indexOf("anonymous___") != -1) {
+                    this.setMenu('home');
+                } else {
+                    this.setMenu('home');
+                }
+                if (this._lastLoggedPanel) {
+                    this._lastLoggedPanel.show();
+                    this._lastLoggedPanel = null;
+                }
+                if (this._lastLoggedMenu) {
+                    this.setMenu(this._lastLoggedMenu);
+                    this._lastLoggedMenu = null;
+                }
                 this.$.home.isLogged = true;
                 this.checkShowMenuOnLogin();
             },
@@ -239,123 +270,6 @@
             },
             handleUserNeedRefresh: function() {
                 this.$.stvHeader.getUserInfo(true);
-            },
-
-            handleLaunchTest: function(e) {
-                var me = this;
-                console.log('Launch test');
-                var query = {
-                    sid: Cookies("bioinfo_sid"),
-                    name: 'El job',
-                    description: 'la desc',
-                    outdirId: '56cae4eba1276eac042b53a4',
-                };
-                var jobConfig = {
-                    tool: 'test',
-                    execution: 'test',
-                    executable: 'test.sh',
-                    options: {
-                        input1: {
-                            type: 'file',
-                            mode: 'id',
-                            value: '56cb2edf5ef99403282a7640'
-                        },
-                        input2: {
-                            type: 'file',
-                            mode: 'text',
-                            value: 'test input 2\nthis file is text'
-                        },
-                        outdir: {
-                            out: true,
-                        },
-                        param1: {
-                            type: 'text',
-                            value: 'param1val'
-                        },
-                        f: {
-                            type: 'flag',
-                            short: true
-                        }
-                    }
-                };
-
-                /**/
-                /**/
-                var query = {
-                    sid: Cookies("bioinfo_sid"),
-                    name: 'Differential signaling job',
-                    description: 'test diff sign',
-                    outdirId: '56e6d0ed5d07cb333f39f6d0'
-                };
-                var jobConfig = {
-                    tool: 'pathways',
-                    execution: 'differential-signaling',
-                    executable: 'differential-signaling.sh',
-                    options: {
-                        "exp_file": {
-                            type: 'file',
-                            mode: 'id',
-                            value: '56e6c91d67fd4ad8567b5e4c'
-                        },
-                        "design_file": {
-                            type: 'file',
-                            mode: 'id',
-                            value: '56e6c919ff6002ce567adada'
-                        },
-                        "output_folder": {
-                            out: true,
-                        },
-                        cond1: {
-                            type: 'text',
-                            value: 'Normal'
-                        },
-                        cond2: {
-                            type: 'text',
-                            value: 'Tumor'
-                        },
-                        // "pathways_list": {
-                        //     type: 'text',
-                        //     value: "04014,04015,04010,04012,04310,04330,04340,04350,04390,04370,04630,04064,04668,04066,04068,04020,04071,04024,04022,04151,04152,04150,04110,04114,04210,04115,04510,04520,04530,04540,04611,04620,04621,04622,04650,04660,04662,04664,04666,04670,04062,04910,04922,04920,03320,04912,04915,04914,04921,04919,04916,04261,04270,04722,05200,05231,05202,05205"
-                        // },
-                        "pathways_list": {
-                            type: 'text',
-                            value: "04014"
-                        },
-                        "species": {
-                            type: 'text',
-                            value: "hsa"
-                        },
-                        "design_type": {
-                            type: 'text',
-                            value: "categorical"
-                        },
-                        "verbose": {
-                            type: 'flag'
-                        }
-                    }
-                };
-
-                SteviaManager.jobs.create({
-                    query: query,
-                    request: {
-                        method: 'POST',
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(jobConfig),
-                        success: function(response) {
-                            if (response.response[0].error == null) {
-                                console.log(response);
-                            } else {
-                                console.log(response.response[0].error);
-                            }
-                            me.handleUserNeedRefresh();
-                        },
-                        error: function() {
-                            console.log('Server error, try again later.');
-                        }
-                    }
-                });
             },
             handleFeedback: function() {
                 this.$.feedback.hidden = !this.$.feedback.hidden;

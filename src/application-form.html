@@ -1,0 +1,99 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<dom-module id="application-form">
+    <style is="custom-style" include="iron-flex iron-flex-reverse iron-flex-alignment iron-flex-factors iron-positioning">
+         :host {
+            display: block;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        #form {
+            margin: 0px auto 0px auto;
+            max-width: 1000px;
+            padding: 15px 40px;
+            border: 1px solid #c6d0da;
+            background-color: #FFFFFF;
+            box-shadow: 2px 6px 15px 8px rgba(0, 0, 0, 0.30);
+        }
+
+        #title {
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+        }
+    </style>
+    <template>
+        <form id="form">
+            <p id="title">
+                <strong>My form</strong>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </p>
+            <div class="horizontal layout center-justified">
+                <div class="stv-btn stv-btn-shdw stv-btn-big" on-click="launchJob"><i class="fa fa-rocket"></i> &nbsp; Launch Job</div>
+            </div>
+        </form>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'application-form',
+            launchJob: function(e) {
+                var me = this;
+                console.log('Launch test');
+                var query = {
+                    sid: Cookies("bioinfo_sid"),
+                    name: 'Test job',
+                    description: 'desc',
+                    outdirId: '56cae4eba1276eac042b53a4',
+                };
+                var jobConfig = {
+                    tool: 'test-tool',
+                    execution: 'test',
+                    executable: 'test.sh',
+                    options: {
+                        outdir: {
+                            out: true,
+                        },
+                        param1: {
+                            type: 'text',
+                            value: 'param1val'
+                        },
+                        f: {
+                            type: 'flag',
+                            short: true
+                        }
+                    }
+                };
+                SteviaManager.jobs.create({
+                    query: query,
+                    request: {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(jobConfig),
+                        success: function(response) {
+                            if (response.response[0].error == null) {
+                                console.log(response);
+                            } else {
+                                console.log(response.response[0].error);
+                            }
+                            me.fire('need-refresh');
+                        },
+                        error: function() {
+                            console.log('Server error, try again later.');
+                        }
+                    }
+                });
+            },
+        })
+    </script>
+</dom-module>

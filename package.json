@@ -1,17 +1,19 @@
 {
     "name": "stevia-scaffold",
-    "version": "0.1.0",
     "description": "",
+    "version": "0.1.0",
+    "license": "GPL-3.0",
+    "author": "Francisco Salavert Torres <frasator@gmail.com>",
     "repository": {
         "type": "git",
-        "url": ""
-    },
+        "url": "https://github.com/frasator/stevia-scaffold.git"
+    }
     "scripts": {
         "build": "node ./build.js"
     },
     "devDependencies": {
-        "async": "^2.0.0-rc.6",
-        "shelljs": "^0.7.0",
+        "async": "^2.1.5",
+        "shelljs": "^0.7.7",
         "vulcanize": "1.14.8"
     }
 }
